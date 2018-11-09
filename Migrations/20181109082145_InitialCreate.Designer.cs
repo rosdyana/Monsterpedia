@@ -9,7 +9,7 @@ using Monsterpedia.Models;
 namespace Monsterpedia.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20181109072848_InitialCreate")]
+    [Migration("20181109082145_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,37 +31,13 @@ namespace Monsterpedia.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<byte?>("SkillId");
-
-                    b.Property<byte>("Total");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SkillId");
 
                     b.ToTable("Monsters");
-                });
-
-            modelBuilder.Entity("Monsterpedia.Models.Skill", b =>
-                {
-                    b.Property<byte>("Id");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Skills");
-                });
-
-            modelBuilder.Entity("Monsterpedia.Models.Monster", b =>
-                {
-                    b.HasOne("Monsterpedia.Models.Skill", "Skill")
-                        .WithMany()
-                        .HasForeignKey("SkillId");
                 });
 #pragma warning restore 612, 618
         }

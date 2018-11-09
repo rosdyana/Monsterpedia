@@ -1,4 +1,4 @@
-@model IEnumerable<Monsterpedia.Models.Monster>
+@model Monsterpedia.Models.MonsterTypeViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -9,26 +9,38 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Monster" asp-action="Index" method="get">
+    <p>
+        <select asp-for="MonsterType" asp-items="Model.Types">
+            <option value="">All</option>
+        </select>
+
+        Title: <input asp-for="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Monsters[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Monsters[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateAdded)
+                @Html.DisplayNameFor(model => model.Monsters[0].Type)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Total)
+                @Html.DisplayNameFor(model => model.Monsters[0].DateAdded)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Monsters) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -37,10 +49,10 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateAdded)
+                @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Total)
+                @Html.DisplayFor(modelItem => item.DateAdded)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

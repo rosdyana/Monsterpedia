@@ -12,11 +12,14 @@ namespace Monsterpedia.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        [Display(Name = "Date Added")]
-        public DateTime DateAdded { get; set; }
+        [Required]
+        [StringLength(10)]
+        [Display(Name = "Monster Type")]
+        public string Type { get; set; }
 
-        [Range(1, 5)]
-        public byte Total { get; set; }
+        [Display(Name = "Date Added")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime DateAdded { get; set; }
 
     }
 }

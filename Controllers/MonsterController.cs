@@ -19,11 +19,33 @@ namespace Monsterpedia.Controllers
         }
 
         // GET: Monster
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string monsterType, string searchString)
         {
-            return View(await _context.Monsters.ToListAsync());
-        }
+            // use LINQ to get list of types. retrieve all data
+            IQueryable<string> typeQuery = from m in _context.Monsters
+                                           orderby m.Type
+                                           select m.Type;
 
+            // LINQ query to select monster
+            var monsters = from m in _context.Monsters
+                           select m;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                monsters = monsters.Where(s => s.Name.Contains(searchString));
+            }
+
+            if (!String.IsNullOrEmpty(monsterType))
+            {
+                monsters = monsters.Where(x => x.Type == monsterType);
+            }
+
+            var monsterTypeVM = new MonsterTypeViewModel();
+            monsterTypeVM.Types = new SelectList(await typeQuery.Distinct().ToListAsync());
+            monsterTypeVM.Monsters = await monsters.ToListAsync();
+            monsterTypeVM.SearchString = searchString;
+
+            return View(monsterTypeVM);
+        }
         // GET: Monster/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -53,7 +75,7 @@ namespace Monsterpedia.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,DateAdded,Total")] Monster monster)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Type,DateAdded")] Monster monster)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +107,7 @@ namespace Monsterpedia.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,DateAdded,Total")] Monster monster)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Type,DateAdded")] Monster monster)
         {
             if (id != monster.Id)
             {
