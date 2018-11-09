@@ -8,7 +8,7 @@ namespace Monsterpedia.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Skill",
+                name: "Skills",
                 columns: table => new
                 {
                     Id = table.Column<byte>(nullable: false),
@@ -17,7 +17,7 @@ namespace Monsterpedia.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skill", x => x.Id);
+                    table.PrimaryKey("PK_Skills", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -27,17 +27,18 @@ namespace Monsterpedia.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     SkillId = table.Column<byte>(nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false),
-                    NumberInStock = table.Column<byte>(nullable: false)
+                    Total = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Monsters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Monsters_Skill_SkillId",
+                        name: "FK_Monsters_Skills_SkillId",
                         column: x => x.SkillId,
-                        principalTable: "Skill",
+                        principalTable: "Skills",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -54,7 +55,7 @@ namespace Monsterpedia.Migrations
                 name: "Monsters");
 
             migrationBuilder.DropTable(
-                name: "Skill");
+                name: "Skills");
         }
     }
 }

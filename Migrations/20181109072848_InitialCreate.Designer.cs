@@ -9,7 +9,7 @@ using Monsterpedia.Models;
 namespace Monsterpedia.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20181109070804_InitialCreate")]
+    [Migration("20181109072848_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,13 +25,15 @@ namespace Monsterpedia.Migrations
 
                     b.Property<DateTime>("DateAdded");
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<byte>("NumberInStock");
-
                     b.Property<byte?>("SkillId");
+
+                    b.Property<byte>("Total");
 
                     b.HasKey("Id");
 
@@ -52,7 +54,7 @@ namespace Monsterpedia.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skill");
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Monsterpedia.Models.Monster", b =>

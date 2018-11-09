@@ -23,13 +23,15 @@ namespace Monsterpedia.Migrations
 
                     b.Property<DateTime>("DateAdded");
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<byte>("NumberInStock");
-
                     b.Property<byte?>("SkillId");
+
+                    b.Property<byte>("Total");
 
                     b.HasKey("Id");
 
@@ -50,7 +52,7 @@ namespace Monsterpedia.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skill");
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Monsterpedia.Models.Monster", b =>

@@ -8,6 +8,6 @@ namespace Monsterpedia.Models
         : base(options)
         {
         }
-        public DbSet<Monsterpedia.Models.Monster> Monsters { get; set; }
+        public DbSet<Monster> Monsters { get; set; }
     }
 }
