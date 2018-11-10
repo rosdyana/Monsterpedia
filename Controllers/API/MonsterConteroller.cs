@@ -9,9 +9,9 @@ namespace Monsterpedia.Controllers.API
     [ApiController]
     public class MonsterController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public MonsterController(ApplicationContext context)
+        public MonsterController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -34,12 +34,40 @@ namespace Monsterpedia.Controllers.API
         }
 
         [HttpPost]
-        public IActionResult Create(Monster monster)
+        public IActionResult CreateMonster(Monster monster)
         {
             _context.Monsters.Add(monster);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetMonster", new { id = monster.Id }, monster);
+            return StatusCode(201);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateMonster(int id, Monster monster)
+        {
+            var mMonster = _context.Monsters.Find(id);
+            if (mMonster == null)
+            {
+                return NotFound();
+            }
+
+            _context.Update(monster);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMonster(int id)
+        {
+            var mMonster = _context.Monsters.Find(id);
+            if (mMonster == null)
+            {
+                return NotFound();
+            }
+
+            _context.Monsters.Remove(mMonster);
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }

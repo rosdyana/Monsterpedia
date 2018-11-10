@@ -11,9 +11,9 @@ namespace Monsterpedia.Controllers
 {
     public class MonsterController : Controller
     {
-        private readonly ApplicationContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public MonsterController(ApplicationContext context)
+        public MonsterController(ApplicationDbContext context)
         {
             _context = context;
         }

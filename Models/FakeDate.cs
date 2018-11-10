@@ -9,8 +9,8 @@ namespace Monsterpedia.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new ApplicationContext(
-                serviceProvider.GetRequiredService<DbContextOptions<ApplicationContext>>()))
+            using (var context = new ApplicationDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
                 // Look for any movies.
                 if (context.Monsters.Any())

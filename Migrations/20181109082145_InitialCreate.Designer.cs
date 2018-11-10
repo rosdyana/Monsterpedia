@@ -8,7 +8,7 @@ using Monsterpedia.Models;
 
 namespace Monsterpedia.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20181109082145_InitialCreate")]
     partial class InitialCreate
     {

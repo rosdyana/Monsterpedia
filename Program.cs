@@ -26,7 +26,8 @@ namespace Monsterpedia
 
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationContext>();
+                    // if empty DB, generate fake data
+                    var context = services.GetRequiredService<ApplicationDbContext>();
                     context.Database.Migrate();
                     FakeData.Initialize(services);
                 }
