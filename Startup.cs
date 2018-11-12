@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -33,10 +34,21 @@ namespace Monsterpedia
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>(options =>
+                        {
+                            options.Password.RequireDigit = false;
+                            options.Password.RequiredLength = 6;
+                            options.Password.RequiredUniqueChars = 0;
+                            options.Password.RequireLowercase = false;
+                            options.Password.RequireNonAlphanumeric = false;
+                            options.Password.RequireUppercase = false;
+                        }
+            )
+                            .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            // set the database
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=MonsterPedia.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +57,7 @@ namespace Monsterpedia
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -55,6 +68,8 @@ namespace Monsterpedia
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
